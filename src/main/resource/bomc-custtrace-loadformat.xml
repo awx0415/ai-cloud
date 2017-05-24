@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<loadformat>
+	<!--<hbase.zookeeper.quorum>einvoice243,einvoice244,einvoice247</hbase.zookeeper.quorum>-->
+	<hbase.zookeeper.quorum>192.168.10.128</hbase.zookeeper.quorum>
+	<!--<hbase.zookeeper.quorum>192.168.10.128</hbase.zookeeper.quorum>-->
+	<hbase.zookeeper.property.clientPort>2181</hbase.zookeeper.property.clientPort>
+	<fs.defaultFS>hdfs://ocetl</fs.defaultFS>
+	<hbase.rpc.timeout>180000</hbase.rpc.timeout>
+    <format>
+		<fileResolveImplClass>com.ai.cloud.bean.BomcFileResolve</fileResolveImplClass>
+        <!-- HBASE清单表名前缀 -->
+        <tableName>USER_TRACE</tableName>
+        <!-- 平行转换处理类 -->
+        <parallelClass>com.ai.cloud.biz.CustTraceConvert</parallelClass>
+        <!-- 列族名，hbase表列族 -->
+        <columnFamily>F</columnFamily>
+        <!-- 字段 -->
+        <column>START_TIME,TRADE_STAFF_ID,SERIAL_NUMBER,IN_MODE_CODE</column>
+        <!-- 分隔符 -->
+        <separator>,</separator>
+        <!-- 间隔扫描时间 单位毫秒(ms)-->
+	    <intervaLTime>30000</intervaLTime>
+	    <!-- 单批次处理文件数 -->
+	    <batchNo>2000</batchNo>
+	    <!-- 单批次处理清单(条) -->
+	    <batchPut>2000</batchPut>
+	    <!-- 
+	    	设置写WAL （Write-Ahead-Log）的级别,
+	    	ASYNC_WAL:当数据变动时，异步写WAL日志;
+	    	SYNC_WAL:当数据变动时，同步写WAL日志;
+			FSYNC_WAL:当数据变动时，同步写WAL日志，并且，强制将数据写入磁盘;
+			SKIP_WAL:不写WAL日志;
+			USE_DEFAULT:使用HBase全局默认的WAL写入级别，即 SYNC_WAL; 
+		-->
+
+	    <durability>ASYNC_WAL</durability>
+	    <srcFilePath>H:/test/bomc/work</srcFilePath>
+	    <skipFile>.txt</skipFile>
+
+        <bakFileSwitch>TRUE</bakFileSwitch>
+	    <bakFilePath>H:/test/bomc/bak</bakFilePath>
+	   	<errorOutPath>H:/test/bomc/error</errorOutPath>
+<!--
+		<durability>ASYNC_WAL</durability>
+		<srcFilePath>/home/ocetl/test/work</srcFilePath>
+		<skipFile>.txt</skipFile>
+
+		<bakFileSwitch>TRUE</bakFileSwitch>
+		<bakFilePath>/home/ocetl/test/bak</bakFilePath>
+		<errorOutPath>/home/ocetl/test/error</errorOutPath>
+-->
+    </format>
+</loadformat>
